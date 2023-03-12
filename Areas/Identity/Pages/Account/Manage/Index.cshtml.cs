@@ -78,7 +78,7 @@ namespace JolDos2.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber,
+                PhoneNumber = user.PhoneNumber,
                 Firstname = user.Firstname,
                 Lastname = user.Lastname,
                 Gender = user.Gender

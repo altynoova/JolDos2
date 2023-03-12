@@ -82,6 +82,10 @@ namespace JolDos2.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Gender")]
             public string Gender { get; set; }
+            [Required]
+            [Phone]
+            [Display(Name = "Phone number")]
+            public string PhoneNumber { get; set; }
 
             //[Required]
             //[Display(Name = "Role")]
@@ -122,6 +126,7 @@ namespace JolDos2.Areas.Identity.Pages.Account
                 user.Firstname = Input.Firstname;
                 user.Lastname = Input.Lastname;
                 user.Gender = Input.Gender;
+                user.PhoneNumber = Input.PhoneNumber;
                 //user.Role = Input.Role;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
