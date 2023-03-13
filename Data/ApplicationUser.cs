@@ -9,6 +9,6 @@ namespace JolDos2.Data
         public string? Gender { get; set; }
         public string? Role { get; set; }
         public float? Rating { get; set; }
-        //public string? ProfilePicture { get; set; }
+        public string? ProfilePicture { get; set; }
     }
 }

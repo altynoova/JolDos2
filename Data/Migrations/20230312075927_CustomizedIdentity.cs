@@ -62,6 +62,13 @@ namespace JolDos2.Data.Migrations
                 nullable: false,
                 defaultValue: "");
 
+            migrationBuilder.AddColumn<string>(
+            name: "ProfilePicture",
+            table: "AspNetUsers",
+            type: "nvarchar(max)",
+            nullable: false,
+            defaultValue: "");
+
             migrationBuilder.AlterColumn<string>(
                 name: "ProviderKey",
                 table: "AspNetUserLogins",
