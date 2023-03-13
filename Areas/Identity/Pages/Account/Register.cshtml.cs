@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using JolDos2.Constans;
 
 namespace JolDos2.Areas.Identity.Pages.Account
 {
@@ -127,6 +128,7 @@ namespace JolDos2.Areas.Identity.Pages.Account
                 user.Lastname = Input.Lastname;
                 user.Gender = Input.Gender;
                 user.PhoneNumber = Input.PhoneNumber;
+                user.Role = Roles.passenger.ToString();
                 //user.Role = Input.Role;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -134,8 +136,8 @@ namespace JolDos2.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, Roles.passenger.ToString());
                     _logger.LogInformation("User created a new account with password.");
-
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

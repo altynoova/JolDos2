@@ -2,16 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using JolDos2.Data;
-using JolDos2.Models;
 using JolDos2.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace JolDos2.Areas.Identity.Pages.Account.Manage
 {
@@ -24,7 +20,7 @@ namespace JolDos2.Areas.Identity.Pages.Account.Manage
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IFileService fileService 
+            IFileService fileService
             )
         {
             _userManager = userManager;
@@ -135,7 +131,7 @@ namespace JolDos2.Areas.Identity.Pages.Account.Manage
             }
             if (Input.Firstname != user.Firstname)
             {
-                user.Firstname=Input.Firstname;
+                user.Firstname = Input.Firstname;
                 await _userManager.UpdateAsync(user);
             }
             if (Input.Lastname != user.Lastname)
@@ -152,13 +148,14 @@ namespace JolDos2.Areas.Identity.Pages.Account.Manage
             }
 
             //code for image upload 
-            if(Input.ProfilePicture != null)
+            if (Input.ProfilePicture != null)
             {
                 var result = _fileService.SaveImage(Input.ImageFile);
-                if(result.Item1 != 1)
+
+                if (result.Item1 == 1)
                 {
                     var oldImage = user.ProfilePicture;
-                    user.ProfilePicture = result.Item2;
+                    user.ProfilePicture ="hello";
                     await _userManager.UpdateAsync(user);
                     var deleteResult = _fileService.DeleteImage(oldImage);
                 }
