@@ -20,6 +20,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using JolDos2.Constans;
+using MailKit.Net.Smtp;
+using MimeKit;
+using MimeKit.Text;
+using MailKit.Security;
 
 namespace JolDos2.Areas.Identity.Pages.Account
 {
@@ -88,9 +92,6 @@ namespace JolDos2.Areas.Identity.Pages.Account
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
-            //[Required]
-            //[Display(Name = "Role")]
-            //public string Role { get; set; }
 
             [Required]
             [EmailAddress]
@@ -147,7 +148,7 @@ namespace JolDos2.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    await SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
@@ -169,6 +170,70 @@ namespace JolDos2.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
+        private async Task<bool> SendEmailAsync(string userEmail, string subject, string confirmlink)
+        {
+            try
+            {
+                var email = new MimeMessage();
+                email.From.Add(MailboxAddress.Parse("afaricanistan@gmail.com"));
+                email.To.Add(MailboxAddress.Parse(userEmail));
+                email.Subject = subject;
+                email.Body = new TextPart(TextFormat.Html) { Text = $"<h1>{confirmlink}</h1>" };
+
+                using var smtp = new SmtpClient();
+                smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                smtp.Authenticate("altynoovam@gmail.com", "Alina251001");
+                smtp.Send(email);
+                smtp.Disconnect(true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+    //    private async Task<bool> SendEmailAsync(string email, string subject, string confirmlink)
+    //    {
+    //        public void SendConfirmCodeToEmail(int code, string userEmail)
+    //{
+    //    var email = new MimeMessage();
+    //    email.From.Add(MailboxAddress.Parse("afaricanistan@gmail.com"));
+    //    email.To.Add(MailboxAddress.Parse(userEmail));
+    //    email.Subject = "Title";
+    //    email.Body = new TextPart(TextFormat.Html) { Text = $"<h1>{code}</h1>" };
+
+    //    using var smtp = new SmtpClient();
+    //    smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+    //    smtp.Authenticate("1904.01028@manas.edu.kg", "Alina251001");
+    //    smtp.Send(email);
+    //    smtp.Disconnect(true);
+    //}
+    //        try
+    //        {
+    //            MailMessage message = new MailMessage();
+    //            SmtpClient smtpClient = new SmtpClient();
+    //            message.From = new MailAddress("altynoovam@gmail.com");
+    //            message.To.Add(email);
+    //            message.Subject = subject;
+    //            message.IsBodyHtml = true;
+    //            message.Body = confirmlink;
+
+    //            smtpClient.Port = 465;
+    //            smtpClient.Host = "smtp.gmail.com";
+
+    //            smtpClient.EnableSsl = true;
+    //            smtpClient.UseDefaultCredentials = false;
+    //            smtpClient.Credentials = new NetworkCredential("@altynoovam@gmail.com", "sivvtecxxznypadd");
+    //            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+    //            smtpClient.Send(message);
+    //            return true;
+    //        }
+    //        catch (Exception)
+    //        {
+    //            return false;
+    //        }
+    //    }
 
         private ApplicationUser CreateUser()
         {
