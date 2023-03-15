@@ -148,7 +148,7 @@ namespace JolDos2.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await SendEmailAsync(Input.Email, "Confirm your email",
+                 await SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
@@ -183,7 +183,7 @@ namespace JolDos2.Areas.Identity.Pages.Account
 
                 using var smtp = new SmtpClient();
                 smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-                smtp.Authenticate("altynoovam@gmail.com", "Alina251001");
+                smtp.Authenticate("1904.01028@manas.edu.kg", "Alina251001");
                 smtp.Send(email);
                 smtp.Disconnect(true);
                 return true;

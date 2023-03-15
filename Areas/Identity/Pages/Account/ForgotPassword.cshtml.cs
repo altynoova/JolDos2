@@ -14,6 +14,10 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using MailKit.Net.Smtp;
+using MimeKit;
+using MimeKit.Text;
+using MailKit.Security;
 
 namespace JolDos2.Areas.Identity.Pages.Account
 {
@@ -71,15 +75,38 @@ namespace JolDos2.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
+                await SendEmailAsync(
                     Input.Email,
                     "Reset Password",
                     $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
+
             }
 
             return Page();
+        }
+        private async Task<bool> SendEmailAsync(string userEmail, string subject, string confirmlink)
+        {
+            try
+            {
+                var email = new MimeMessage();
+                email.From.Add(MailboxAddress.Parse("afaricanistan@gmail.com"));
+                email.To.Add(MailboxAddress.Parse(userEmail));
+                email.Subject = subject;
+                email.Body = new TextPart(TextFormat.Html) { Text = $"<h1>{confirmlink}</h1>" };
+
+                using var smtp = new SmtpClient();
+                smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                smtp.Authenticate("1904.01028@manas.edu.kg", "Alina251001");
+                smtp.Send(email);
+                smtp.Disconnect(true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

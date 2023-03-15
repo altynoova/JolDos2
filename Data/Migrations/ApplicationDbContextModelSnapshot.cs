@@ -141,7 +141,7 @@ namespace JolDos2.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Trip");
+                    b.ToTable("Trip", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
