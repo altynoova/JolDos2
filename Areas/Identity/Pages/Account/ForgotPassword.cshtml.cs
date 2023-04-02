@@ -103,7 +103,7 @@ namespace JolDos2.Areas.Identity.Pages.Account
                 smtp.Disconnect(true);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 return false;
             }

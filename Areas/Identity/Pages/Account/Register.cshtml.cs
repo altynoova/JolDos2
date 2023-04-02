@@ -188,52 +188,11 @@ namespace JolDos2.Areas.Identity.Pages.Account
                 smtp.Disconnect(true);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 return false;
             }
         }
-    //    private async Task<bool> SendEmailAsync(string email, string subject, string confirmlink)
-    //    {
-    //        public void SendConfirmCodeToEmail(int code, string userEmail)
-    //{
-    //    var email = new MimeMessage();
-    //    email.From.Add(MailboxAddress.Parse("afaricanistan@gmail.com"));
-    //    email.To.Add(MailboxAddress.Parse(userEmail));
-    //    email.Subject = "Title";
-    //    email.Body = new TextPart(TextFormat.Html) { Text = $"<h1>{code}</h1>" };
-
-    //    using var smtp = new SmtpClient();
-    //    smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-    //    smtp.Authenticate("1904.01028@manas.edu.kg", "Alina251001");
-    //    smtp.Send(email);
-    //    smtp.Disconnect(true);
-    //}
-    //        try
-    //        {
-    //            MailMessage message = new MailMessage();
-    //            SmtpClient smtpClient = new SmtpClient();
-    //            message.From = new MailAddress("altynoovam@gmail.com");
-    //            message.To.Add(email);
-    //            message.Subject = subject;
-    //            message.IsBodyHtml = true;
-    //            message.Body = confirmlink;
-
-    //            smtpClient.Port = 465;
-    //            smtpClient.Host = "smtp.gmail.com";
-
-    //            smtpClient.EnableSsl = true;
-    //            smtpClient.UseDefaultCredentials = false;
-    //            smtpClient.Credentials = new NetworkCredential("@altynoovam@gmail.com", "sivvtecxxznypadd");
-    //            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-    //            smtpClient.Send(message);
-    //            return true;
-    //        }
-    //        catch (Exception)
-    //        {
-    //            return false;
-    //        }
-    //    }
 
         private ApplicationUser CreateUser()
         {

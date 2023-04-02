@@ -10,6 +10,6 @@ namespace JolDos2.Data
             : base(options)
         {
         }
-        public DbSet<Trip> Trips { get; set; }
+        public DbSet<Location> Locations { get; set; }
     }
 }

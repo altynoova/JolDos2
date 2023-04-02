@@ -279,3 +279,12 @@ C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swa
 C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\MailKit.dll
 C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\MimeKit.dll
 C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\System.Web.Mvc.dll
+C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\System.Web.Razor.dll
+C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\System.Web.Helpers.dll
+C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\System.Web.WebPages.Deployment.dll
+C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\System.Web.WebPages.Razor.dll
+C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\System.Web.WebPages.dll
+C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\Microsoft.Web.Infrastructure.dll
+C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\package-lock.json
+C:\Users\Meerim\source\repos\JolDos2\bin\Debug\net6.0\package.json

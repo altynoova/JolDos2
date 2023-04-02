@@ -1,5 +1,4 @@
 using JolDos2.Data;
-using JolDos2.Models;
 using JolDos2.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

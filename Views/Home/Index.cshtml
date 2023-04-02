@@ -1,33 +1,74 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome, dear passenger!!!</h1>
-</div>
-    <div class="form-body">
-         <div class="col-md-10">
-                <input class="form-control" type="text" name="name" placeholder="From" required>
-                <div class="valid-feedback">Username field is valid!</div>
-                <div class="invalid-feedback">Username field cannot be blank!</div>
-            </div>
-            <div class="col-md-10">
-                <input class="form-control" type="text" name="name" placeholder="To" required>
-                <div class="valid-feedback">Username field is valid!</div>
-                <div class="invalid-feedback">Username field cannot be blank!</div>
-            </div>       
-            <div class="col-md-10">
-                <input class="form-control" type="text" name="name" placeholder="Date" required>
-                <div class="valid-feedback">Username field is valid!</div>
-                <div class="invalid-feedback">Username field cannot be blank!</div>
-            </div>                        
-            <div class="col-md-10">
-                <input class="form-control" type="text" name="name" placeholder="Seats" required>
-                <div class="valid-feedback">Username field is valid!</div>
-                <div class="invalid-feedback">Username field cannot be blank!</div>
-            </div> 
-
-            <div class="form-button mt-3">
-                <button id="submit" type="submit" class="btn btn-warning">Search</button>
+<form asp-action="Index" method="post">
+    <div class="row input-group">
+        <input type="text" name="search" id="search" class="form-control"/>
+        <input type="text" name="search2" id="search2" class="form-control"/>
+        <span> Date:</span> <input type="datetime" name="tripDate"/>
+        <span> Seats:</span> <input type="number" name="seats"/>
+        <div class="input-group-btn"> 
+        <input type="submit" value="Search" class="btn-primary"/>
         </div>
     </div>
+</form>
+@section Scripts{
+    <script>        
+    var options = {
+
+      url: function(search) {
+        return "/Home/AutoComplete";
+      },
+
+      getValue: function(element) {
+        return element.label;
+      },
+
+      ajaxSettings: {
+        dataType: "json",
+        method: "POST",
+        data: {
+          dataType: "json"
+        }
+      },
+          
+      preparePostData: function(data) {
+        data.search = $("#search").val();
+        return data;
+      },
+
+      requestDelay: 400
+};
+    $("#search").easyAutocomplete(options);
+    </script>
+       <script>        
+    var options = {
+
+      url: function(search) {
+        return "/Home/AutoComplete";
+      },
+
+      getValue: function(element) {
+        return element.label;
+      },
+
+      ajaxSettings: {
+        dataType: "json",
+        method: "POST",
+        data: {
+          dataType: "json"
+        }
+      },
+          
+      preparePostData: function(data) {
+        data.search = $("#search2").val();
+        return data;
+      },
+
+      requestDelay: 400
+};
+    $("#search2").easyAutocomplete(options);
+    </script>
+}
