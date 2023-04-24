@@ -8,8 +8,8 @@ namespace JolDos2.Data
         public int Id { get; set; }
         public int DriverId { get; set; }
 
-        public int From { get; set; }
-        public int To { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
         public DateTime DateOfTrip { get; set; }
         public int Seats { get; set; }
         public string Fare { get; set; }

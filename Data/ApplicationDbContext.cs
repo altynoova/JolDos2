@@ -11,5 +11,6 @@ namespace JolDos2.Data
         {
         }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Trip> Trips { get; set; }
     }
 }

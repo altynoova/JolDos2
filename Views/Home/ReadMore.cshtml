@@ -1,0 +1,90 @@
+﻿@using JolDos2.Data
+@model IEnumerable<Trip> 
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body>
+<div class="card">
+            <div class="title">Trip details</div>
+            @foreach(var trips in Model){
+            <div class="info">
+                <div class="row">
+                    <div class="col-6">
+                        <span id="heading">id</span><br>
+                        <span id="details"></span>
+                    </div>
+                    <div class="col-6 pull-right">
+                        <span id="heading">@trips.Id</span><br>
+                        <span id="details"></span>
+                    </div>
+                </div>      
+            </div>      
+            <div class="pricing">
+                <div class="row">
+                    <div class="col-6">
+                        <span id="name">From</span>  
+                    </div>
+                    <div class="col-6">
+                        <span id="price">@trips.From</span>
+                    </div>
+               </div>
+                <div class="row">   
+                    <div class="col-6">
+                        <span id="name">To</span>  
+                    </div>
+                    <div class="col-6">
+                        <span id="price">@trips.To</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <span id="name">Date</span>
+                    </div>
+                    <div class="col-6">
+                        <span id="price">@trips.DateOfTrip</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <span id="name">Seats</span>
+                    </div>
+                    <div class="col-6">
+                        <span id="price">@trips.Seats</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <span id="name">Driver name</span>
+                    </div>
+                    <div class="col-6">
+                        <span id="price">@trips.DriverId</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <span id="name">Driver number </span>
+                    </div>
+                    <div class="col-6">
+                        <span id="price">+996234567822</span>
+                    </div>
+                </div>
+            </div>
+            <div class="total">
+                <div class="row">
+                    <div class="col-6">Fare </div>
+                    <div class="col-6"><big>@trips.Fare</big></div>
+                </div>
+
+
+            <div class="w-75 btn-group" role="group">
+                <a asp-controller="Home" asp-action="Book" asp-route-id="@trips.Id"
+                class="btn  btn-primary mx-3 "><i class="bi bi-pencil-square"></i>Book</a>
+
+            </div>
+
+            </div>                
+               
+}
+</div>
+</body>

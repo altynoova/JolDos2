@@ -66,6 +66,9 @@ namespace JolDos2.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Gender")]
             public string Gender { get; set; }
 
+            [Display(Name = "Role")]
+            public string Role { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
@@ -89,7 +92,8 @@ namespace JolDos2.Areas.Identity.Pages.Account.Manage
                 Firstname = user.Firstname,
                 Lastname = user.Lastname,
                 Gender = user.Gender,
-                ProfilePicture = user.ProfilePicture
+                ProfilePicture = user.ProfilePicture,
+                Role = user.Role
             };
         }
 
@@ -144,6 +148,13 @@ namespace JolDos2.Areas.Identity.Pages.Account.Manage
 
             {
                 user.Gender = Input.Gender;
+                await _userManager.UpdateAsync(user);
+            }
+            if (Input.Role != user.Role)
+            {
+                await _userManager.RemoveFromRoleAsync(user, user.Role);
+                await _userManager.AddToRoleAsync(user,Input.Role);
+                user.Role = Input.Role;
                 await _userManager.UpdateAsync(user);
             }
 

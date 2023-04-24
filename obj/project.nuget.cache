@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "t5tnS7E+FSp6gqxTwlr60l0jx0wayyzgJzF5Xgxe01M5gx2NCgc3kx3apIs+0OXlF+SAUmtm5VvB6AbKb+Be0g==",
+  "dgSpecHash": "nyvjnO5frdc1UTkiiuC9eYr4GF4Nc8zKsUmKvq6QcmtpLYFedK+dJyVHF+g+3dNajRDz7lhiTgiUmYIW7Qqsqw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Meerim\\source\\repos\\JolDos2\\JolDos2.csproj",
+  "projectFilePath": "C:\\Users\\Meerim\\OneDrive\\Desktop\\Joldos\\JolDos2\\JolDos2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Meerim\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Meerim\\.nuget\\packages\\jquery\\2.0.0\\jquery.2.0.0.nupkg.sha512",
