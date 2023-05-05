@@ -1,134 +1,57 @@
-﻿<form asp-controller="Home" asp-action="IndexD" method="post">
-<section class="order-form m-4">
-@*  <div class="container pt-4">
-      		<div class="mb-3">
-			<label asp-for="From"></label>
-			<input asp-for="From" name="searchd" id="searchd" class="form-control") />
-			<span asp-validation-for="From" class="text-danger"></span>
-            </div>	
-
-            <div class="mb-3">
-			<label asp-for="To"></label>
-			<input asp-for="To" name="searchd1" id="searchd1" class="form-control") />
-			<span asp-validation-for="To" class="text-danger"></span>
-		    </div>
-
-            <div class="mb-3">
-			<label asp-for="DateOfTrip"></label>
-			<input asp-for="DateOfTrip" class="form-control") />
-			<span asp-validation-for="DateOfTrip" class="text-danger"></span>
-		    </div>
-
-            <div class="mb-3">
-			<label asp-for="Seats"></label>
-			<input asp-for="Seats" class="form-control") />
-			<span asp-validation-for="Seats" class="text-danger"></span>
-		    </div>
-
-            <div class="mb-3">
-			<label asp-for="Fare"></label>
-			<input asp-for="Fare" class="form-control") />
-			<span asp-validation-for="Fare" class="text-danger"></span>
-		    </div>
-
-            <div class="mb-3">
-			<label asp-for="AutoInf"></label>
-			<input asp-for="AutoInf" class="form-control") />
-			<span asp-validation-for="AutoInf" class="text-danger"></span>
-		    </div>
-
-            
-            <div class="mb-3">
-			<label asp-for="DriverId" hidden></label>
-			<input asp-for="DriverId" class="form-control") />
-			<span asp-validation-for="DriverId" class="text-danger"></span>
-		    </div>
-
-              <div class="row mt-3">
-                  <div class="col-12">
-                      <button type="button" id="btnSubmit" class="btn btn-primary d-block mx-auto btn-submit">Submit</button>
-                  </div>
-              </div>
-   </div>*@
-   <div class="container pt-4">
-     <div class="row">
-          <div class="col-12 px-4">
-              <h1>Create a new trip</h1>
-              <span>with some explanation below</span>
-              <hr class="mt-1" />
-          </div>
-
-          <div class="col-12">
-              <div class="row mx-4">
-              <div class="row mt-3 mx-4">
-                  <div class="col-12">
-                      <label class="order-form-label">From</label>
-                  </div>
-                  <div class="col-12">
-                      <div class="form-outline">
-                          <input type="text" name="searchd" id="searchd" class="form-control order-form-input" />
-                      </div> 
-                  </div>
-              </div>
-
-              <div class="row mt-3 mx-4">
-                  <div class="col-12">
-                      <label class="order-form-label">To</label>
-                  </div>
-                  <div class="col-12">
-                      <div class="form-outline">
-                          <input type="text" name="serachd1" id="searchd1" class="form-control order-form-input" />
-                      </div>
-                  </div>
-              </div>
-
-              <div class="row mt-3 mx-4">
-                  <div class="col-12">
-                      <label class="order-form-label" for="date-picker-example">Date</label>
-                  </div>
-                  <div class="col-12">
-                      <div class="form-outline datepicker" data-mdb-toggle-button="false">
-                          <input type="date" class="form-control order-form-input" id="datepicker1" data-mdb-toggle="datepicker" />
-                          <label for="datepicker1" class="form-label">Select a date</label>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="col-sm-6 mt-2 pe-sm-2">
-                      <div class="form-outline">
-                      <label class="order-form-label">Seats</label>
-                          <input type="text" id="form7" class="form-control order-form-input" />
-                      </div>
-                  </div>
-                  <div class="col-sm-6 mt-2 ps-sm-0">
-                      <div class="form-outline">
-                          <label class="order-form-label">Fare</label>
-                          <input type="text" id="form8" class="form-control order-form-input" />
-                      </div>
-                  </div>
-
-              <div class="row mt-3 mx-4">
-                  <div class="col-12">
-                      <label class="order-form-label">Auto information</label>
-                  </div>
-              <div class="col-12">
-                      <div class="form-outline">
-                          <input type="text" class="form-control order-form-input" />
-                      </div> 
-               </div>
-              <div class="row mt-3">
-                  <div class="col-12">
-                      <button type="button" id="btnSubmit" class="btn btn-primary d-block mx-auto btn-submit">Submit</button>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-  </div>
-  </div>
-  
-</section>
+﻿@model IEnumerable<Trip>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form asp-action="IndexD" method="post">
+    <div class="row input-group">
+        <input type="text" name="from" id="searchd" class="form-control"/>
+        <input type="text" name="to" id="searchd1" class="form-control"/>
+        <span> Date:</span> <input type="date" name="tripDate"/>
+        <span> Seats:</span> <input type="number" name="seats"/>
+        <span> Fare:</span> <input type="text" name="fare"/>
+        <span> About car:</span> <input type="text" name="aboutcar"/>
+        <div class="input-group-btn"> 
+        <input type="submit" value="Submit" class="btn-primary"/>
+        </div>
+    </div>
 </form>
+
+
+   <body>
+         <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                <th>Id</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Date</th>
+                <th>Seats</th>
+                <th>Fare</th>
+                <th>Actions</th>                                
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var trip in Model)
+            {
+                <tr>
+                    <td width=5%>@trip.Id</td>
+                    <td width=20%>@trip.From</td>
+                    <td width=20%>@trip.To</td>
+                    <td width=20%>@trip.DateOfTrip.Date</td>
+                    <td width=5%>@trip.Seats</td>
+                    <td width=10%>@trip.Fare</td>
+                    <td width=20%>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Home" asp-action="ReadMore"  asp-route-id="@trip.Id"
+                        class="btn  btn-primary mx-3"><i class="bi bi-pencil-square"></i>Read More</a>
+                    </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </body>
 @section Scripts{
     <script>        
     var options = {

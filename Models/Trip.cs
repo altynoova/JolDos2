@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace JolDos2.Data
+namespace JolDos2.Models
 {
     [Table("Trip")]
     public class Trip
     {
         public int Id { get; set; }
-        public int DriverId { get; set; }
+        public string DriverId { get; set; }
 
         public string From { get; set; }
         public string To { get; set; }

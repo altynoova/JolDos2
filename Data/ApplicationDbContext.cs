@@ -1,4 +1,4 @@
-﻿using JolDos2.Data;
+﻿using JolDos2.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,4 @@
-﻿namespace JolDos2.Data
+﻿namespace JolDos2.Models
 {
     public class Location
     {

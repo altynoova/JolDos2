@@ -78,17 +78,36 @@ namespace JolDos2.Controllers
         }
         public async Task<IActionResult> IndexDAsync()
         {
-            IdentityUser user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-            IEnumerable<Trip> tripFromDb = _context.Trips.Where(x => x.Id.ToString() == user.Id).ToList();
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var userId = user?.Id;
+            //IdentityUser user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            IEnumerable<Trip> tripFromDb = _context.Trips.Where(x=> x.DriverId == userId);
 
             return View(tripFromDb);
         }
         [HttpPost]
-        public IActionResult IndexD(Trip obj)
+        public async Task<IActionResult> IndexDAsync(string from, string to, DateTime tripDate, int seats, string fare, string aboutcar)
         {
-            _context.Trips.Add(obj);
-            _context.SaveChanges();
-            return RedirectToAction("IndexD");
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var userId = user?.Id;
+            var trip = new Trip
+            {
+                From = from,
+                To = to,
+                DateOfTrip = tripDate,
+                Seats = seats,
+                Fare = fare,
+                AutoInf = aboutcar,
+                DriverId = userId
+            };
+            if (ModelState.IsValid)
+            {
+                _context.Trips.Add(trip);
+                _context.SaveChanges();
+                TempData["success"] = "Category updated successfully!!!";
+                return RedirectToAction("IndexD");
+            }
+            return View(trip);
         }
         public IActionResult Privacy()
         {
