@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "6qbzVo19DcsPZGL60ts/Uw3NbGSmHnXTWAJa+fyB1vY=",
+  "Hash": "+z9Lp/SbAXZ+ft+Yzp3YCqSMc0/+01uA5SIHfz8pgVI=",
   "Source": "JolDos2",
   "BasePath": "_content/JolDos2",
   "Mode": "Default",
@@ -1105,12 +1105,12 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\Meerim\\OneDrive\\Desktop\\Joldos\\JolDos2\\wwwroot\\js\\site.js",
+      "Identity": "C:\\Users\\Meerim\\OneDrive\\Desktop\\Joldos\\JolDos2\\wwwroot\\js\\seit.js",
       "SourceId": "JolDos2",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Meerim\\OneDrive\\Desktop\\Joldos\\JolDos2\\wwwroot\\",
       "BasePath": "_content/JolDos2",
-      "RelativePath": "js/site.js",
+      "RelativePath": "js/seit.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1119,7 +1119,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\site.js"
+      "OriginalItemSpec": "wwwroot\\js\\seit.js"
     },
     {
       "Identity": "C:\\Users\\Meerim\\OneDrive\\Desktop\\Joldos\\JolDos2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",

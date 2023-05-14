@@ -10,6 +10,7 @@ namespace JolDos2.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private ApplicationDbContext _context { get; set; }
+
         private readonly UserManager<ApplicationUser> _userManager;
 
         public HomeController(UserManager<ApplicationUser> userManager,
@@ -20,7 +21,6 @@ namespace JolDos2.Controllers
             _logger = logger;
             _context = context;
         }
-        [HttpPost]
         public JsonResult AutoComplete(string search)
         {
             var locations = (from location in _context.Locations
@@ -63,8 +63,8 @@ namespace JolDos2.Controllers
             var day = int.Parse(tripDate.Day.ToString());
             var year = int.Parse(tripDate.Year.ToString());
             var tripDate2 = new DateTime(year, day, month);
-            IEnumerable<Trip> TripsList = _context.Trips.Where(x => x.From == search
-            && x.To == search2
+            IEnumerable<Trip> TripsList = _context.Trips.Where(x => x.FromLoc == search
+            && x.ToLoc == search2
             && x.DateOfTrip.Date == tripDate2.Date
             && x.Seats >= seats).ToList();
             return View(TripsList);
@@ -72,18 +72,73 @@ namespace JolDos2.Controllers
 
         public IActionResult ReadMore(int id)
         {
-            IEnumerable<Trip> tripFromDb = _context.Trips.Where(x => x.Id == id).ToList();
+            IEnumerable<Trip> tripFromDb = _context.Trips.Where(x => x.Trip_id == id).ToList();
 
             return View(tripFromDb);
+        }
+
+        public async Task<IActionResult> BookAsync(int id)
+        {            
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                var userId = user?.Id;
+                var tripId = id;
+            if (user!=null)
+            {
+                var bookedUser = new Book
+                {
+                    TripId = tripId,
+                    BookedPassengerId = userId
+                };
+                if (!(_context.Books.Any(x => (x.TripId == tripId && x.BookedPassengerId == user.Id))))
+                {
+                    if (ModelState.IsValid)
+                    {
+                        _context.Books.Add(bookedUser);
+                        _context.SaveChanges();
+                        TempData["success"] = "Book updated successfully!!!";
+                        return RedirectToAction("ReadMore");
+                    }
+                    return NotFound();
+                }
+                else
+                {
+                    return View(bookedUser);
+                }                                               
+            }
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
         }
         public async Task<IActionResult> IndexDAsync()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            var userId = user?.Id;
-            //IdentityUser user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-            IEnumerable<Trip> tripFromDb = _context.Trips.Where(x=> x.DriverId == userId);
+            var query = from trip in _context.Trips
+                        join books in _context.Books on trip.Trip_id equals books.TripId
+                        join acceptedPassengers in _context.Users on books.AcceptedPassengerId equals acceptedPassengers.Id
+                        join bookedPassengers in _context.Users on books.BookedPassengerId equals bookedPassengers.Id
+                        where  trip.DriverId == user.Id & trip.TripStatus == true 
+                        select new
+                        {
+                            trip.Trip_id,
+                            trip.FromLoc,
+                            trip.ToLoc,
+                            trip.DateOfTrip,
+                            trip.Fare,
+                            trip.Seats,
+                            AcceptedPassengers = acceptedPassengers.UserName,
+                            BookedPassengers = bookedPassengers.UserName
+                        };
+            List<DriverViewModel> result = query.Select(item => new DriverViewModel
+            {
+                Trip_id = item.Trip_id,
+                FromLoc = item.FromLoc,
+                ToLoc = item.ToLoc,
+                DateOfTrip = item.DateOfTrip,
+                Fare = item.Fare,
+                Seats = item.Seats,
+                AcceptedPassengers = item.AcceptedPassengers,
+                BookedPassengers = item.BookedPassengers
+            }).ToList();
 
-            return View(tripFromDb);
+            return View(result);
         }
         [HttpPost]
         public async Task<IActionResult> IndexDAsync(string from, string to, DateTime tripDate, int seats, string fare, string aboutcar)
@@ -92,19 +147,20 @@ namespace JolDos2.Controllers
             var userId = user?.Id;
             var trip = new Trip
             {
-                From = from,
-                To = to,
+                FromLoc = from,
+                ToLoc = to,
                 DateOfTrip = tripDate,
                 Seats = seats,
                 Fare = fare,
                 AutoInf = aboutcar,
-                DriverId = userId
+                DriverId = userId,
+                TripStatus = true
             };
             if (ModelState.IsValid)
             {
                 _context.Trips.Add(trip);
                 _context.SaveChanges();
-                TempData["success"] = "Category updated successfully!!!";
+                TempData["success"] = "Trip added successfully!!!";
                 return RedirectToAction("IndexD");
             }
             return View(trip);
