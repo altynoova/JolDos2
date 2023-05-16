@@ -1,0 +1,147 @@
+﻿@model MyCombinedModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form asp-action="IndexD" method="post">
+    <div class="row input-group">
+        <input type="text" name="from" id="searchd" class="form-control"/>
+        <input type="text" name="to" id="searchd1" class="form-control"/>
+        <span> Date:</span> <input type="date" name="tripDate"/>
+        <span> Seats:</span> <input type="number" name="seats"/>
+        <span> Fare:</span> <input type="text" name="fare"/>
+        <span> About car:</span> <input type="text" name="aboutcar"/>
+        <div class="input-group-btn"> 
+        <input type="submit" value="Submit" class="btn-primary"/>
+        </div>
+    </div>
+</form>
+
+
+   <body>
+         <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                <th>Id</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Date</th>
+                <th>Fare</th>
+                <th>Seats</th>
+                <th>Accepted Passenger</th>
+                <th>Booked Passenger</th> 
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var trip in Model.Model1List)
+            {
+                <tr>
+                    <td width=5%>@trip.Trip_id</td>
+                    <td width=10%>@trip.FromLoc</td>
+                    <td width=10%>@trip.ToLoc</td>
+                    <td width=20%>@trip.DateOfTrip.Date</td>
+                    <td width=5%>@trip.Fare</td>
+                    <td width=5%>@trip.Seats</td>
+                    <td width=10%>@trip.AcceptedPassengers</td>
+                    <td width=35%>@trip.BookedPassengers </td>
+                    <td>
+                    <div class="w-50 btn-group" role="group">
+                        <a asp-controller="Home" asp-action="AcceptPassenger"  asp-route-id="@trip.Id"
+                        class="btn  btn-primary mx-3"><i class="bi bi-pencil-square"></i>Accept</a>
+                        <a asp-controller="Home" asp-action="DeclinePassenger" asp-route-id="@trip.Id"
+                        class="btn  btn-danger mx-3"><i class="bi bi-pencil-square"></i>Decline</a>
+                    </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <h2>Archives</h2>
+         <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                <th>Id</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Date</th>
+                <th>Fare</th>
+                <th>Seats</th>
+                <th>Accepted Passenger</th>   
+
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var trip in Model.Model2List)
+            {
+                <tr>
+                    <td width=5%>@trip.Trip_id</td>
+                    <td width=10%>@trip.FromLoc</td>
+                    <td width=10%>@trip.ToLoc</td>
+                    <td width=20%>@trip.DateOfTrip.Date</td>
+                    <td width=5%>@trip.Fare</td>
+                    <td width=5%>@trip.Seats</td>
+                    <td width=10%>@trip.AcceptedPassengers</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </body>
+@section Scripts{
+    <script>        
+    var options = {
+
+      url: function(search) {
+        return "/Home/AutoComplete";
+      },
+
+      getValue: function(element) {
+        return element.label;
+      },
+
+      ajaxSettings: {
+        dataType: "json",
+        method: "POST",
+        data: {
+          dataType: "json"
+        }
+      },
+          
+      preparePostData: function(data) {
+        data.search = $("#searchd").val();
+        return data;
+      },
+
+      requestDelay: 400
+};
+    $("#searchd").easyAutocomplete(options);
+    </script>
+       <script>        
+    var options = {
+
+      url: function(search) {
+        return "/Home/AutoComplete";
+      },
+
+      getValue: function(element) {
+        return element.label;
+      },
+
+      ajaxSettings: {
+        dataType: "json",
+        method: "POST",
+        data: {
+          dataType: "json"
+        }
+      },
+          
+      preparePostData: function(data) {
+        data.search = $("#searchd1").val();
+        return data;
+      },
+
+      requestDelay: 400
+};
+    $("#searchd1").easyAutocomplete(options);
+    </script>
+}

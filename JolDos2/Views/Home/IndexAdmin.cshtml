@@ -1,0 +1,41 @@
+﻿@using JolDos2.Data
+@model List<ApplicationUser>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body>
+    @if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-@(TempData["AlertType"] ?? "info")">
+        @TempData["AlertMessage"]
+    </div>
+}
+<h2>User List</h2>
+         <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>                                
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var trip in Model)
+            {
+                <tr>
+                    <td width=5%>@trip.UserName</td>
+                    <td width=20%>@trip.Email</td>
+                    <td width=20%>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Home" asp-action="BlockUser"  asp-route-id="@trip.Id"
+                        class="btn  btn-danger mx-3"><i class="bi bi-pencil-square"></i>Block</a>
+                        <a asp-controller="Home" asp-action="UnlockUser"  asp-route-id="@trip.Id"
+                        class="btn  btn-primary mx-3"><i class="bi bi-pencil-square"></i>Unblock</a>
+                    </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        </body>
