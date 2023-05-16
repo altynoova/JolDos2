@@ -5,6 +5,7 @@ namespace JolDos2.Models
     public class DriverViewModel
     {
             [Key]
+            public int Id { get; set; }
             public int Trip_id { get; set; }
             public string FromLoc { get; set; }
             public string ToLoc { get; set; }

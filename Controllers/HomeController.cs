@@ -59,13 +59,13 @@ namespace JolDos2.Controllers
         [HttpPost]
         public IActionResult Index(string search, string search2, DateTime tripDate, int seats)
         {
-            var month = int.Parse(tripDate.Month.ToString());
-            var day = int.Parse(tripDate.Day.ToString());
-            var year = int.Parse(tripDate.Year.ToString());
-            var tripDate2 = new DateTime(year, day, month);
+            //var month = int.Parse(tripDate.Month.ToString());
+            //var day = int.Parse(tripDate.Day.ToString());
+            //var year = int.Parse(tripDate.Year.ToString());
+            //var tripDate2 = new DateTime(year, day, month);
             IEnumerable<Trip> TripsList = _context.Trips.Where(x => x.FromLoc == search
             && x.ToLoc == search2
-            && x.DateOfTrip.Date == tripDate2.Date
+            && x.DateOfTrip.Date == tripDate
             && x.Seats >= seats).ToList();
             return View(TripsList);
         }
@@ -102,7 +102,9 @@ namespace JolDos2.Controllers
                 }
                 else
                 {
-                    return View(bookedUser);
+                    TempData["AlertMessage"] = "You have already booked";
+                    TempData["AlertType"] = "success";
+                    return RedirectToAction("ReadMore");
                 }                                               
             }
             return RedirectToPage("/Account/Login", new { area = "Identity" });
@@ -110,23 +112,65 @@ namespace JolDos2.Controllers
         public async Task<IActionResult> IndexDAsync()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            var query = from trip in _context.Trips
-                        join books in _context.Books on trip.Trip_id equals books.TripId
-                        join acceptedPassengers in _context.Users on books.AcceptedPassengerId equals acceptedPassengers.Id
-                        join bookedPassengers in _context.Users on books.BookedPassengerId equals bookedPassengers.Id
-                        where  trip.DriverId == user.Id & trip.TripStatus == true 
+            var query = from t in _context.Trips
+                        join b in _context.Books on t.Trip_id equals b.TripId into bGroup
+                        from b in bGroup.DefaultIfEmpty()
+                        join u1 in _context.Users on b.BookedPassengerId equals u1.Id into u1Group
+                        from u1 in u1Group.DefaultIfEmpty()
+                        join u2 in _context.Users on b.AcceptedPassengerId equals u2.Id into u2Group
+                        from u2 in u2Group.DefaultIfEmpty()
+                        where t.TripStatus == true && t.DriverId == user.Id
+                        group new { t, u1, u2 } by new { b.Id, t.Trip_id, t.DriverId, t.FromLoc, t.ToLoc, t.DateOfTrip, t.Fare, t.Seats, u1.UserName } into g
+                        orderby g.Key.Trip_id
                         select new
                         {
-                            trip.Trip_id,
-                            trip.FromLoc,
-                            trip.ToLoc,
-                            trip.DateOfTrip,
-                            trip.Fare,
-                            trip.Seats,
-                            AcceptedPassengers = acceptedPassengers.UserName,
-                            BookedPassengers = bookedPassengers.UserName
+                            g.Key.Id,
+                            g.Key.Trip_id,
+                            g.Key.DriverId,
+                            g.Key.FromLoc,
+                            g.Key.ToLoc,
+                            g.Key.DateOfTrip,
+                            g.Key.Fare,
+                            g.Key.Seats,
+                            g.Key.UserName,
+                            AcceptedPassengers = string.Join(",", g.Where(x => x.u2 != null).Select(x => x.u2.UserName)),
+
                         };
             List<DriverViewModel> result = query.Select(item => new DriverViewModel
+            {
+                Id = item.Id,
+                Trip_id = item.Trip_id,
+                FromLoc = item.FromLoc,
+                ToLoc = item.ToLoc,
+                DateOfTrip = item.DateOfTrip,
+                Fare = item.Fare,
+                Seats = item.Seats,
+                BookedPassengers = item.UserName,
+                AcceptedPassengers = item.AcceptedPassengers,
+            }).ToList();
+
+            var query1 = from t in _context.Trips
+                         join b in _context.Books on t.Trip_id equals b.TripId into bGroup
+                         from b in bGroup.DefaultIfEmpty()
+                         join u1 in _context.Users on b.BookedPassengerId equals u1.Id into u1Group
+                         from u1 in u1Group.DefaultIfEmpty()
+                         join u2 in _context.Users on b.AcceptedPassengerId equals u2.Id into u2Group
+                         from u2 in u2Group.DefaultIfEmpty()
+                         group new { t, u1, u2 } by new { t.Trip_id, t.DriverId, t.FromLoc, t.ToLoc, t.DateOfTrip, t.Fare, t.Seats } into g
+                         orderby g.Key.Trip_id
+                         select new
+                         {
+                             g.Key.Trip_id,
+                             g.Key.DriverId,
+                             g.Key.FromLoc,
+                             g.Key.ToLoc,
+                             g.Key.DateOfTrip,
+                             g.Key.Fare,
+                             g.Key.Seats,
+                             AcceptedPassengers = string.Join(",", g.Where(x => x.u2 != null).Select(x => x.u2.UserName))
+                         };
+
+            List<DriverViewModel> result1 = query1.Select(item => new DriverViewModel
             {
                 Trip_id = item.Trip_id,
                 FromLoc = item.FromLoc,
@@ -135,10 +179,14 @@ namespace JolDos2.Controllers
                 Fare = item.Fare,
                 Seats = item.Seats,
                 AcceptedPassengers = item.AcceptedPassengers,
-                BookedPassengers = item.BookedPassengers
             }).ToList();
 
-            return View(result);
+            var model1List = new List<DriverViewModel>(result);
+            var model2List = new List<DriverViewModel>(result1);
+
+            var viewModel = new MyCombinedModel { Model1List = model1List, Model2List = model2List };
+
+            return View(viewModel);
         }
         [HttpPost]
         public async Task<IActionResult> IndexDAsync(string from, string to, DateTime tripDate, int seats, string fare, string aboutcar)
@@ -165,6 +213,49 @@ namespace JolDos2.Controllers
             }
             return View(trip);
         }
+
+        public async Task<IActionResult> AcceptPassenger(int id)
+        {
+            // Retrieve the booking with the specified trip ID and booked passenger ID
+            var booking = _context.Books.FirstOrDefault(b => b.Id == id);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            // Update the accepted passenger ID to the value of the booked passenger ID
+            booking.AcceptedPassengerId = booking.BookedPassengerId;
+
+            // Set the booked passenger ID to null
+            booking.BookedPassengerId = null;
+
+            // Save the changes to the database
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("IndexD","Home");
+        }
+
+        public async Task<IActionResult> DeclinePassenger(int id)
+        {
+            // Retrieve the booking with the specified trip ID and booked passenger ID
+            var booking = _context.Books.FirstOrDefault(b => b.Id == id);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            // Update the accepted passenger ID to the value of the booked passenger ID
+            _context.Books.Remove(booking);
+
+            // Save the changes to the database
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("IndexD", "Home");
+        }
+
+
         public IActionResult Privacy()
         {
             return View();

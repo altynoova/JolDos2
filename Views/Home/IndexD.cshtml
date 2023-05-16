@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DriverViewModel>
+﻿@model MyCombinedModel
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -29,11 +29,12 @@
                 <th>Fare</th>
                 <th>Seats</th>
                 <th>Accepted Passenger</th>
-                <th>Booked Passenger</th>                              
+                <th>Booked Passenger</th> 
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            @foreach (var trip in Model)
+            @foreach (var trip in Model.Model1List)
             {
                 <tr>
                     <td width=5%>@trip.Trip_id</td>
@@ -43,14 +44,44 @@
                     <td width=5%>@trip.Fare</td>
                     <td width=5%>@trip.Seats</td>
                     <td width=10%>@trip.AcceptedPassengers</td>
-                    <td width=35%>@trip.BookedPassengers
+                    <td width=35%>@trip.BookedPassengers </td>
+                    <td>
                     <div class="w-50 btn-group" role="group">
-                        <a asp-controller="Home" asp-action="AcceptPassenger"  asp-route-id="@trip.BookedPassengers"
+                        <a asp-controller="Home" asp-action="AcceptPassenger"  asp-route-id="@trip.Id"
                         class="btn  btn-primary mx-3"><i class="bi bi-pencil-square"></i>Accept</a>
-                        <a asp-controller="Home" asp-action="DeclinePassengers" asp-route-id="@trip.BookedPassengers"
+                        <a asp-controller="Home" asp-action="DeclinePassenger" asp-route-id="@trip.Id"
                         class="btn  btn-danger mx-3"><i class="bi bi-pencil-square"></i>Decline</a>
                     </div>
                     </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <h2>Archives</h2>
+         <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                <th>Id</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Date</th>
+                <th>Fare</th>
+                <th>Seats</th>
+                <th>Accepted Passenger</th>   
+
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var trip in Model.Model2List)
+            {
+                <tr>
+                    <td width=5%>@trip.Trip_id</td>
+                    <td width=10%>@trip.FromLoc</td>
+                    <td width=10%>@trip.ToLoc</td>
+                    <td width=20%>@trip.DateOfTrip.Date</td>
+                    <td width=5%>@trip.Fare</td>
+                    <td width=5%>@trip.Seats</td>
+                    <td width=10%>@trip.AcceptedPassengers</td>
                 </tr>
             }
             </tbody>

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "G9SuNsYi3hSaX4UnGNmmmAaklAl8ZMT6HejRR7UG63VTaSR0ofyIZUPbEG4flqdrDYxOFu7mKUQpFqlsbZRuGQ==",
+  "dgSpecHash": "saxpTx/vYVpB9cuRoXHNh0kaKJK4oTL1mJCcOtp2y7/qpKAwiZBGbkITVZRT2vCG2jUKEc028FEZQ0zISgJUig==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Meerim\\OneDrive\\Desktop\\Joldos\\JolDos2\\JolDos2.csproj",
+  "projectFilePath": "C:\\Users\\Meerim\\source\\repos\\JolDos2\\JolDos2\\JolDos2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Meerim\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\Meerim\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

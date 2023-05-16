@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Meerim\\OneDrive\\Desktop\\Joldos\\JolDos2\\JolDos2.csproj": {}
+    "C:\\Users\\Meerim\\source\\repos\\JolDos2\\JolDos2\\JolDos2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Meerim\\OneDrive\\Desktop\\Joldos\\JolDos2\\JolDos2.csproj": {
+    "C:\\Users\\Meerim\\source\\repos\\JolDos2\\JolDos2\\JolDos2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Meerim\\OneDrive\\Desktop\\Joldos\\JolDos2\\JolDos2.csproj",
+        "projectUniqueName": "C:\\Users\\Meerim\\source\\repos\\JolDos2\\JolDos2\\JolDos2.csproj",
         "projectName": "JolDos2",
-        "projectPath": "C:\\Users\\Meerim\\OneDrive\\Desktop\\Joldos\\JolDos2\\JolDos2.csproj",
+        "projectPath": "C:\\Users\\Meerim\\source\\repos\\JolDos2\\JolDos2\\JolDos2.csproj",
         "packagesPath": "C:\\Users\\Meerim\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Meerim\\OneDrive\\Desktop\\Joldos\\JolDos2\\obj\\",
+        "outputPath": "C:\\Users\\Meerim\\source\\repos\\JolDos2\\JolDos2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
